@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Tableau-style plus-mark cluster -->
+  <g fill="#5C6692">
+    <path d="M11 2h2v5h-2zM8.5 4.5v-2 5-3zM11 17h2v5h-2z"/>
+  </g>
+  <g fill="#E97627">
+    <path d="M10.6 8.6h2.8v2.8h4.2v2.8h-4.2v4.2h-2.8v-4.2H6.4v-2.8h4.2z" transform="translate(0 -1.6)"/>
+  </g>
+  <g fill="#1F447E">
+    <path d="M4 10h1.6v2.2H8v1.6H5.6V16H4v-2.2H1.6v-1.6H4zM18.4 10H20v2.2h2.4v1.6H20V16h-1.6v-2.2H16v-1.6h2.4z"/>
+  </g>
+  <g fill="#7099A6">
+    <path d="M11.3 1h1.4v2.1H15v1.3h-2.3v2.1h-1.4V4.4H9V3.1h2.3zM11.3 17.5h1.4v2.1H15v1.3h-2.3V23h-1.4v-2.1H9v-1.3h2.3z"/>
+  </g>
+</svg>
