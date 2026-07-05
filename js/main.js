@@ -271,7 +271,7 @@
       var step = width / (9 - 1);
       series.forEach(function (line) {
         var pts = line.points;
-        pts.forEach(function (pt) { pt.y += (pt.target - pt.y) * 0.015; });
+        pts.forEach(function (pt) { pt.y += (pt.target - pt.y) * 0.006; });
 
         ctx.beginPath();
         ctx.moveTo(0, pts[0].y);
@@ -302,7 +302,7 @@
     }
 
     function loop() {
-      pulseT += 0.04;
+      pulseT += 0.018;
       draw();
       rafId = requestAnimationFrame(loop);
     }
@@ -327,7 +327,7 @@
 
     if (!reducedMotion.matches) {
       startLoop();
-      setInterval(retarget, 3500);
+      setInterval(retarget, 8000);
     }
 
     var resizeTimer;
@@ -364,6 +364,48 @@
     reducedMotion.addEventListener('change', function () {
       if (reducedMotion.matches) { stopLoop(); draw(); }
       else startLoop();
+    });
+  }
+
+  /* ---------- Hero rotating word ---------- */
+  var rotator = document.querySelector('.rotator');
+  if (rotator && rotator.dataset.words && !reducedMotion.matches) {
+    var words = rotator.dataset.words.split(',');
+    // cycles through the section-underline gradient colors
+    var wordColors = ['var(--accent)', 'var(--accent-2)', 'var(--accent-3)'];
+    var wordIdx = Math.max(words.indexOf(rotator.textContent), 0);
+    rotator.style.color = wordColors[wordIdx % wordColors.length];
+    setInterval(function () {
+      if (document.hidden) return;
+      rotator.classList.add('is-out');
+      setTimeout(function () {
+        wordIdx = (wordIdx + 1) % words.length;
+        rotator.textContent = words[wordIdx];
+        rotator.style.color = wordColors[wordIdx % wordColors.length];
+        rotator.classList.remove('is-out');
+        rotator.classList.add('is-in');
+        // force style flush so the entrance transition runs
+        void rotator.offsetWidth;
+        rotator.classList.remove('is-in');
+      }, 320);
+    }, 2800);
+  }
+
+  /* ---------- Project card tilt (fine pointers only) ---------- */
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches && !reducedMotion.matches) {
+    var MAX_TILT = 2.5; // degrees — keep it subtle
+    document.querySelectorAll('.project').forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.setProperty('--ry', (px * MAX_TILT * 2).toFixed(2) + 'deg');
+        card.style.setProperty('--rx', (-py * MAX_TILT * 2).toFixed(2) + 'deg');
+      });
+      card.addEventListener('mouseleave', function () {
+        card.style.removeProperty('--rx');
+        card.style.removeProperty('--ry');
+      });
     });
   }
 
